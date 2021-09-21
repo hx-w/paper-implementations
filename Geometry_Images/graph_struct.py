@@ -51,7 +51,13 @@ class Edge(object):
     def __eq__(self, obj: object) -> bool:
         return min(self.v1, self.v2) == min(obj.v1, obj.v2) \
             and max(self.v1, self.v2) == max(obj.v1, obj.v2)
-
+    
+    def get_edges(self) -> list: # [x:list, y:list, z:list]
+        return [
+            [g_vertexs[self.v1].x, g_vertexs[self.v2].x],
+            [g_vertexs[self.v1].y, g_vertexs[self.v2].y],
+            [g_vertexs[self.v1].z, g_vertexs[self.v2].z],
+        ]
 
 class Triangle(object):
     def __init__(self, e1: int = -1, e2: int = -1, e3: int = -1):

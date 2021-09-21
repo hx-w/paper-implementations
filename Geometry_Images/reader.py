@@ -43,3 +43,12 @@ def readfile(filename: str):
 
 def get_all_trias() -> list:
     return list(map(lambda x: x.get_trias(), g_trias))
+
+def get_all_edges() -> list:
+    return list(map(lambda x: x.get_edges(), g_edges))
+
+# def get_all_vertexs() -> list: # [x: list, y:list, z: list]
+#     x_list = list(map(lambda x: x.x, g_vertexs))
+#     y_list = list(map(lambda x: x.y, g_vertexs))
+#     z_list = list(map(lambda x: x.z, g_vertexs))
+#     return [x_list, y_list, z_list]

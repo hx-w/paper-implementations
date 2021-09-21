@@ -15,7 +15,12 @@ def parse_argv() -> tuple:
 
 def draw_init():
     ax = plt.axes(projection='3d')
-    tri = a3d.art3d.Poly3DCollection((get_all_trias()))
+    # edges
+    edges = get_all_edges()
+    for edge in edges:
+        ax.plot(edge[0], edge[1], edge[2], 'green')
+    # trias
+    tri = a3d.art3d.Poly3DCollection((get_all_trias()), facecolors='w', alpha=0.3)
     ax.add_collection3d(tri)
 
     # fix aabb
