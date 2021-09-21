@@ -5,6 +5,7 @@ g_edges = []
 g_trias = []
 
 g_edges_trias = [] # [[trias: int, ...], ...]
+g_vet_edges = []
 
 # Axis Aligned Bounding Box
 class AABB(object):
@@ -49,17 +50,11 @@ class Edge(object):
     def __init__(self, v1: int = -1, v2: int = -1):
         self.v1 = v1
         self.v2 = v2
+        self.deleted = False
     
     def __eq__(self, obj: object) -> bool:
         return min(self.v1, self.v2) == min(obj.v1, obj.v2) \
             and max(self.v1, self.v2) == max(obj.v1, obj.v2)
-    
-    def get_edges(self) -> list: # [x:list, y:list, z:list]
-        return [
-            [g_vertexs[self.v1].x, g_vertexs[self.v2].x],
-            [g_vertexs[self.v1].y, g_vertexs[self.v2].y],
-            [g_vertexs[self.v1].z, g_vertexs[self.v2].z],
-        ]
 
 class Triangle(object):
     def __init__(self, e1: int = -1, e2: int = -1, e3: int = -1):
@@ -76,3 +71,21 @@ class Triangle(object):
         for idx in trias_idx:
             trias.append(g_vertexs[idx].xyz())
         return trias
+    
+    def get_edges(self) -> list:
+        trias_idx = set()
+        for edge in self.edges:
+            if g_edges[edge].deleted: continue
+            trias_idx.add(g_edges[edge].v1)
+            trias_idx.add(g_edges[edge].v2)
+        trias = []
+        for idx in trias_idx:
+            trias.append(g_vertexs[idx].xyz())
+        return trias
+    
+    def drop(self, selfid: int):
+        self.deleted = True
+        # update index
+        for idx in range(len(g_edges_trias)):
+            if selfid in g_edges_trias[idx]:
+                g_edges_trias[idx].remove(selfid)
