@@ -6,6 +6,9 @@ import mpl_toolkits.mplot3d as a3d
 
 from reader import *
 
+figure = plt.figure()
+ax = plt.axes(projection='3d')
+
 def parse_argv() -> tuple:
     if len(sys.argv) <= 1:
         print('用法：python3 run.py <网格文件>')
@@ -13,31 +16,58 @@ def parse_argv() -> tuple:
     return True, sys.argv[1]
 
 
-def draw_init():
-    ax = plt.axes(projection='3d')
-    # edges
-    edges = get_all_edges()
-    for edge in edges:
-        ax.plot(edge[0], edge[1], edge[2], 'green')
-    # trias
-    tri = a3d.art3d.Poly3DCollection((get_all_trias()), facecolors='w', alpha=0.3)
-    ax.add_collection3d(tri)
+g_phase = 0 # 0 init;  1 algo-1; 2 algo-2
+g_state = 0 # 0 manually; 1 auto
 
+def press(event):
+    global g_state
+    global g_phase
+    if event.key == 'enter':
+        g_state = 0
+        if g_phase == 0: g_phase = 1
+        plt.title(f'【step-{g_phase}】手动执行')
+        
+    if event.key == ' ':
+        g_state = 1
+        if g_phase == 0: g_phase = 1
+        plt.title(f'【step-{g_phase}】自动执行')
+
+def draw_once():
+    ax.clear()
     # fix aabb
     ax.set_xlim(*g_aabb.x_lim)
     ax.set_ylim(*g_aabb.y_lim)
     ax.set_zlim(*g_aabb.z_lim)
-    plt.show()
+    all_trias = get_all_trias()
+    tri = a3d.art3d.Poly3DCollection(all_trias, facecolors='orange', alpha=0.5)
+    edges = a3d.art3d.Line3DCollection(all_trias, colors='green', linewidth=0.7, alpha=1)
+    ax.add_collection3d(tri)
+    ax.add_collection3d(edges)
+
+def draw():
+    draw_once()
+    while g_phase == 0: # init
+        plt.pause(1.0)
+    
+    while g_phase == 1:
+        global g_trias, g_state
+        if g_state == 0:
+            g_state = -1
+            draw_once()
+            print(g_edges_trias)
+        plt.pause(0.1)
 
 
 def main():
+    plt.rcParams['font.sans-serif'] = ['Arial Unicode MS']
     # read argv
     success, filepath = parse_argv()
     if not success: return
     # read mesh file
     readfile(filepath)
-    # draw init graph
-    draw_init()
+    figure.canvas.mpl_connect('key_press_event', press)
+    # draw graph
+    draw()
 
 if __name__ == '__main__':
     main()

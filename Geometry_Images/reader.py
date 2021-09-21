@@ -33,7 +33,11 @@ def readfile(filename: str):
                     else:
                         edges_idx.append(len(g_edges))
                         g_edges.append(edge)
+                        g_edges_trias.append([])
                 # build trias
+                # update index
+                for edge_idx in edges_idx:
+                    g_edges_trias[edge_idx].append(len(g_trias))
                 g_trias.append(Triangle(*edges_idx))
                 # check index valid
                 assert len(g_trias) == int(elements[1])
@@ -42,7 +46,7 @@ def readfile(filename: str):
     print(f'点数：{len(g_vertexs)}; 边数：{len(g_edges)}; 面数：{len(g_trias)}')
 
 def get_all_trias() -> list:
-    return list(map(lambda x: x.get_trias(), g_trias))
+    return list(filter(lambda x: x != None, map(lambda x: x.get_trias(), g_trias)))
 
 def get_all_edges() -> list:
     return list(map(lambda x: x.get_edges(), g_edges))

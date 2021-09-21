@@ -4,6 +4,8 @@ g_vertexs = []
 g_edges = []
 g_trias = []
 
+g_edges_trias = [] # [[trias: int, ...], ...]
+
 # Axis Aligned Bounding Box
 class AABB(object):
     def __init__(self, x_init: float = 0.0, y_init: float = 0.0, z_init: float = 0.0):
@@ -62,8 +64,10 @@ class Edge(object):
 class Triangle(object):
     def __init__(self, e1: int = -1, e2: int = -1, e3: int = -1):
         self.edges = [e1, e2, e3]
+        self.deleted = False
     
     def get_trias(self) -> list:
+        if self.deleted: return None
         trias_idx = set()
         for edge in self.edges:
             trias_idx.add(g_edges[edge].v1)
