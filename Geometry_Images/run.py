@@ -54,7 +54,7 @@ def draw_once():
     ax.add_collection3d(edges)
 
 def draw():
-    global g_trias, g_state
+    global g_trias, g_state, g_phase
     draw_once()
     while g_phase == 0: # init
         plt.pause(1.0)
@@ -70,9 +70,12 @@ def draw():
     while g_phase == 2:
         if g_state == 0:
             g_state = -1
-            drop_edge()
+            if drop_edge():
+                g_phase = 3
             draw_once()
         plt.pause(0.1)
+    
+    plt.show()
 
 def main():
     # fix Chinese format error

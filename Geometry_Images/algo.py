@@ -4,6 +4,7 @@ import random
 from graph_struct import *
 
 part1_state = 0 # 0 init; 1 drop
+last_2_edges = [-1, -1]
 
 # part 1
 def drop_trias():
@@ -37,8 +38,9 @@ def build_ve_index():
         g_vet_edges[g_edges[idx].v1].append(idx)
         g_vet_edges[g_edges[idx].v2].append(idx)
 
-def drop_edge():
+def drop_edge() -> bool:
     counter = 0
+    global last_2_edges, g_phas
     for idx in range(len(g_vet_edges)):
         if len(g_vet_edges[idx]) == 1:
             single = g_vet_edges[idx][0]
@@ -50,7 +52,17 @@ def drop_edge():
             g_vet_edges[idx] = []
             g_edges[single].deleted = True
             counter += 1
+            ## last 2 edges
+            last_2_edges[1] = last_2_edges[0]
+            last_2_edges[0] = single
     print(f'当前迭代删除边{counter}处')
     remain = len(list(filter(lambda x: not x.deleted, g_edges)))
     print(f'剩余{remain}')
-    pass
+    if remain == 0:
+        g_edges[last_2_edges[0]].deleted = False
+        g_edges[last_2_edges[1]].deleted = False
+    if counter == 0:
+        for idx in range(len(g_trias)):
+            g_trias[idx].deleted = False
+        return True
+    return False

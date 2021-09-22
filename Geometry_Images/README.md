@@ -2,7 +2,7 @@
 
 ### Algo: Cut path finder
 
-#### env
+#### Env
 
 > `Python 3.9.6`
 
@@ -10,7 +10,7 @@
 pip install -r requirements.txt
 ```
 
-#### static
+#### Static
 
 - `Geometry_Images.pdf` paper file
 - `*.m` mesh file
