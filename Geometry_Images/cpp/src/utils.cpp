@@ -8,7 +8,7 @@
  */
 float p2i_x(int xPixel)
 {
-    return (2/(float)GW)*xPixel + 1/(float)GW - 1;
+    return (2 / (float)GW) * xPixel + 1 / (float)GW - 1;
 }
 
 /**
@@ -17,7 +17,7 @@ float p2i_x(int xPixel)
  */
 float p2i_y(int yPixel)
 {
-    return (2/(float)GH)*yPixel + 1/(float)GH - 1;
+    return (2 / (float)GH) * yPixel + 1 / (float)GH - 1;
 }
 
 /**
@@ -26,7 +26,7 @@ float p2i_y(int yPixel)
  */
 float i2w_x(float xImage)
 {
-    return ((float)GW/(float)GH)*xImage;
+    return ((float)GW / (float)GH) * xImage;
 }
 
 /**
@@ -63,7 +63,7 @@ float p2w_y(int yPixel)
  */
 float dotProd(Vector3 v1, Vector3 v2)
 {
-    return v1.x*v2.x + v1.y*v2.y + v1.z*v2.z;
+    return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
 }
 
 /**
@@ -75,9 +75,9 @@ float dotProd(Vector3 v1, Vector3 v2)
  */
 void crossProd(Vector3 a, Vector3 b, Vector3 &c)
 {
-    c.x = a.y*b.z - a.z*b.y;
-    c.y = a.z*b.x - a.x*b.z;
-    c.z = a.x*b.y - a.y*b.x;
+    c.x = a.y * b.z - a.z * b.y;
+    c.y = a.z * b.x - a.x * b.z;
+    c.z = a.x * b.y - a.y * b.x;
 }
 
 /**
@@ -87,10 +87,10 @@ void crossProd(Vector3 a, Vector3 b, Vector3 &c)
  */
 float getAngle(Vector3 v1, Vector3 v2)
 {
-    float len1 = sqrt(v1.x*v1.x + v1.y*v1.y + v1.z*v1.z);
-    float len2 = sqrt(v2.x*v2.x + v2.y*v2.y + v2.z*v2.z);
+    float len1 = sqrt(v1.x * v1.x + v1.y * v1.y + v1.z * v1.z);
+    float len2 = sqrt(v2.x * v2.x + v2.y * v2.y + v2.z * v2.z);
 
-    return acos(dotProd(v1, v2)/(len1*len2));
+    return acos(dotProd(v1, v2) / (len1 * len2));
 }
 
 /**
@@ -102,24 +102,23 @@ float radToDeg(float radian)
     return radian * 180 / PI;
 }
 
-
 /**
  * Calculate the normal on the face given by t.
  * t:  Triangle for normal calculation.
  * Postcondition:  t->normal will contain the normal for t's face.
  */
-void calcNormal(Tri* t)
+void calcNormal(Tri *t)
 {
     Vector3 w1;
     Vector3 w2;
 
-    w1.x = Vertices[t->v3-1]->x - Vertices[t->v2-1]->x;
-    w1.y = Vertices[t->v3-1]->y - Vertices[t->v2-1]->y;
-    w1.z = Vertices[t->v3-1]->z - Vertices[t->v2-1]->z;
+    w1.x = Vertices[t->v3 - 1]->x - Vertices[t->v2 - 1]->x;
+    w1.y = Vertices[t->v3 - 1]->y - Vertices[t->v2 - 1]->y;
+    w1.z = Vertices[t->v3 - 1]->z - Vertices[t->v2 - 1]->z;
 
-    w2.x = Vertices[t->v1-1]->x - Vertices[t->v2-1]->x;
-    w2.y = Vertices[t->v1-1]->y - Vertices[t->v2-1]->y;
-    w2.z = Vertices[t->v1-1]->z - Vertices[t->v2-1]->z;
+    w2.x = Vertices[t->v1 - 1]->x - Vertices[t->v2 - 1]->x;
+    w2.y = Vertices[t->v1 - 1]->y - Vertices[t->v2 - 1]->y;
+    w2.z = Vertices[t->v1 - 1]->z - Vertices[t->v2 - 1]->z;
     crossProd(w1, w2, t->normal);
 }
 
@@ -140,10 +139,10 @@ void getVector(Vector3 &v, int x, int y)
 
     // IF the length reaches outside the unit sphere, project it onto the
     // surface of the unit sphere
-    if(length > 1.)
+    if (length > 1.)
     {
-        v.x = p2w_x(x)/length;
-        v.y = (p2w_y(GH) - 1 - p2w_y(y))/length;
+        v.x = p2w_x(x) / length;
+        v.y = (p2w_y(GH) - 1 - p2w_y(y)) / length;
         v.z = 0.;
     }
     // ELSE the vector is inside the unit sphere
@@ -155,63 +154,56 @@ void getVector(Vector3 &v, int x, int y)
     }
 }
 
-void calcEdges() {
+void calcEdges()
+{
     int j;
     bool found;
- 
-    for(int i = 0; i < Triangles.size(); i++)
+
+    for (int i = 0; i < Triangles.size(); i++)
     {
         found = false;
-        for(j = 0; j < cutPathEdges.size(); j++)
+        for (j = 0; j < cutPathEdges.size(); j++)
         {
-            if((cutPathEdges[j]->v1 == Triangles[i]->v1
-                && cutPathEdges[j]->v2 == Triangles[i]->v2)
-                || (cutPathEdges[j]->v1 == Triangles[i]->v2
-                && cutPathEdges[j]->v2 == Triangles[i]->v1))
+            if ((cutPathEdges[j]->v1 == Triangles[i]->v1 && cutPathEdges[j]->v2 == Triangles[i]->v2) || (cutPathEdges[j]->v1 == Triangles[i]->v2 && cutPathEdges[j]->v2 == Triangles[i]->v1))
                 found = true;
         }
-        if(!found)
+        if (!found)
             cutPathEdges.push_back(new Edge(Triangles[i]->v1, Triangles[i]->v2, Vector3(1, 0, 0)));
 
         found = false;
-        for(j = 0; j < cutPathEdges.size(); j++)
+        for (j = 0; j < cutPathEdges.size(); j++)
         {
-            if((cutPathEdges[j]->v1 == Triangles[i]->v2
-                && cutPathEdges[j]->v2 == Triangles[i]->v3)
-                || (cutPathEdges[j]->v1 == Triangles[i]->v3
-                && cutPathEdges[j]->v2 == Triangles[i]->v2))
+            if ((cutPathEdges[j]->v1 == Triangles[i]->v2 && cutPathEdges[j]->v2 == Triangles[i]->v3) || (cutPathEdges[j]->v1 == Triangles[i]->v3 && cutPathEdges[j]->v2 == Triangles[i]->v2))
                 found = true;
         }
-        if(!found)
+        if (!found)
             cutPathEdges.push_back(new Edge(Triangles[i]->v2, Triangles[i]->v3, Vector3(1, 0, 0)));
 
         found = false;
-        for(j = 0; j < cutPathEdges.size(); j++)
+        for (j = 0; j < cutPathEdges.size(); j++)
         {
-            if((cutPathEdges[j]->v1 == Triangles[i]->v1
-                && cutPathEdges[j]->v2 == Triangles[i]->v3)
-                || (cutPathEdges[j]->v1 == Triangles[i]->v3
-                && cutPathEdges[j]->v2 == Triangles[i]->v1))
+            if ((cutPathEdges[j]->v1 == Triangles[i]->v1 && cutPathEdges[j]->v2 == Triangles[i]->v3) || (cutPathEdges[j]->v1 == Triangles[i]->v3 && cutPathEdges[j]->v2 == Triangles[i]->v1))
                 found = true;
         }
-        if(!found)
+        if (!found)
             cutPathEdges.push_back(new Edge(Triangles[i]->v1, Triangles[i]->v3, Vector3(1, 0, 0)));
     }
 }
 
-void copyGeometry() {
+void copyGeometry()
+{
     int i;
-    for(i = 0; i < Triangles.size(); i++)
+    for (i = 0; i < Triangles.size(); i++)
     {
         originalTriangles.push_back(new Tri(Triangles[i]->v1, Triangles[i]->v2, Triangles[i]->v3));
     }
 
-    for(i = 0; i < Vertices.size(); i++)
+    for (i = 0; i < Vertices.size(); i++)
     {
         originalVertices.push_back(new Vector3(Vertices[i]->x, Vertices[i]->y, Vertices[i]->z));
     }
 
-    for(i = 0; i < VPoints.size(); i++)
+    for (i = 0; i < VPoints.size(); i++)
     {
         originalVPoints.push_back(new Point3(Vector3(VPoints[i]->x, VPoints[i]->y, VPoints[i]->z)));
     }
@@ -220,14 +212,14 @@ void copyGeometry() {
 void makeMyNormalImage()
 {
     int myX = 0, myY = 0;
-    
-    for(int i = 0; i < TextureNormalImage->sizeX * TextureNormalImage->sizeY * 3; i+=3)
+
+    for (int i = 0; i < TextureNormalImage->sizeX * TextureNormalImage->sizeY * 3; i += 3)
     {
-        mynormalimage[myX][myY].r = ((float)((unsigned char)(TextureNormalImage->data[i])))/255.0;
-        mynormalimage[myX][myY].g = ((float)((unsigned char)(TextureNormalImage->data[i+1])))/255.0;
-        mynormalimage[myX][myY].b = ((float)((unsigned char)(TextureNormalImage->data[i+2])))/255.0;
-        
-        if(myX < 64)
+        mynormalimage[myX][myY].r = ((float)((unsigned char)(TextureNormalImage->data[i]))) / 255.0;
+        mynormalimage[myX][myY].g = ((float)((unsigned char)(TextureNormalImage->data[i + 1]))) / 255.0;
+        mynormalimage[myX][myY].b = ((float)((unsigned char)(TextureNormalImage->data[i + 2]))) / 255.0;
+
+        if (myX < 64)
         {
             myX++;
         }
@@ -238,31 +230,32 @@ void makeMyNormalImage()
             myY++;
         }
 
-        if(myY > 64)
+        if (myY > 64)
         {
             break;
         }
     }
 }
 
-void makeMyImage() {
+void makeMyImage()
+{
     int myX = 0, myY = 0;
-    
-    for(int i = 0; i < TextureImage->sizeX * TextureImage->sizeY * 3; i+=3)
+
+    for (int i = 0; i < TextureImage->sizeX * TextureImage->sizeY * 3; i += 3)
     {
-        myimage[myX][myY].r = ((float)((unsigned char)(TextureImage->data[i])))/255.0;
-        myimage[myX][myY].g = ((float)((unsigned char)(TextureImage->data[i+1])))/255.0;
-        myimage[myX][myY].b = ((float)((unsigned char)(TextureImage->data[i+2])))/255.0;
-        
-        myimage2[myX][myY].r = ((float)((unsigned char)(TextureImage->data[i])))/255.0;
-        myimage2[myX][myY].g = ((float)((unsigned char)(TextureImage->data[i+1])))/255.0;
-        myimage2[myX][myY].b = ((float)((unsigned char)(TextureImage->data[i+2])))/255.0;
+        myimage[myX][myY].r = ((float)((unsigned char)(TextureImage->data[i]))) / 255.0;
+        myimage[myX][myY].g = ((float)((unsigned char)(TextureImage->data[i + 1]))) / 255.0;
+        myimage[myX][myY].b = ((float)((unsigned char)(TextureImage->data[i + 2]))) / 255.0;
 
-        myimage3[myX][myY].r = ((float)((unsigned char)(TextureImage->data[i])))/255.0;
-        myimage3[myX][myY].g = ((float)((unsigned char)(TextureImage->data[i+1])))/255.0;
-        myimage3[myX][myY].b = ((float)((unsigned char)(TextureImage->data[i+2])))/255.0;
+        myimage2[myX][myY].r = ((float)((unsigned char)(TextureImage->data[i]))) / 255.0;
+        myimage2[myX][myY].g = ((float)((unsigned char)(TextureImage->data[i + 1]))) / 255.0;
+        myimage2[myX][myY].b = ((float)((unsigned char)(TextureImage->data[i + 2]))) / 255.0;
 
-        if(myX < 64)
+        myimage3[myX][myY].r = ((float)((unsigned char)(TextureImage->data[i]))) / 255.0;
+        myimage3[myX][myY].g = ((float)((unsigned char)(TextureImage->data[i + 1]))) / 255.0;
+        myimage3[myX][myY].b = ((float)((unsigned char)(TextureImage->data[i + 2]))) / 255.0;
+
+        if (myX < 64)
         {
             myX++;
         }
@@ -273,7 +266,7 @@ void makeMyImage() {
             myY++;
         }
 
-        if(myY > 64)
+        if (myY > 64)
         {
             break;
         }
@@ -286,7 +279,7 @@ void makeMyImage() {
 void calcAllVertexNormals()
 {
     // For each face
-    for(int i = 0; i < Triangles.size(); i++)
+    for (int i = 0; i < Triangles.size(); i++)
     {
         // Add that face's normal to each vertex's normal
         VPoints[Triangles[i]->v1 - 1]->normal.x += Triangles[i]->normal.x;
@@ -303,12 +296,10 @@ void calcAllVertexNormals()
     }
 
     // For each vertex
-    for(int j = 0; j < Vertices.size(); j++)
+    for (int j = 0; j < Vertices.size(); j++)
     {
         // Normalize that normal
-        float length = sqrt(VPoints[j]->normal.x*VPoints[j]->normal.x
-            + VPoints[j]->normal.y*VPoints[j]->normal.y
-            + VPoints[j]->normal.z*VPoints[j]->normal.z);
+        float length = sqrt(VPoints[j]->normal.x * VPoints[j]->normal.x + VPoints[j]->normal.y * VPoints[j]->normal.y + VPoints[j]->normal.z * VPoints[j]->normal.z);
         VPoints[j]->normal.x /= length;
         VPoints[j]->normal.y /= length;
         VPoints[j]->normal.z /= length;
@@ -321,7 +312,7 @@ void calcAllVertexNormals()
 void calcAllNewVertexNormals()
 {
     // For each face
-    for(int i = 0; i < newTriangles.size(); i++)
+    for (int i = 0; i < newTriangles.size(); i++)
     {
         // Add that face's normal to each vertex's normal
         newVPoints[newTriangles[i]->v1 - 1]->normal.x += newTriangles[i]->normal.x;
@@ -338,17 +329,14 @@ void calcAllNewVertexNormals()
     }
 
     // For each vertex
-    for(int j = 0; j < newVertices.size(); j++)
+    for (int j = 0; j < newVertices.size(); j++)
     {
         // Normalize that normal
-        float length = sqrt(newVPoints[j]->normal.x*newVPoints[j]->normal.x
-            + newVPoints[j]->normal.y*newVPoints[j]->normal.y
-            + newVPoints[j]->normal.z*newVPoints[j]->normal.z);
+        float length = sqrt(newVPoints[j]->normal.x * newVPoints[j]->normal.x + newVPoints[j]->normal.y * newVPoints[j]->normal.y + newVPoints[j]->normal.z * newVPoints[j]->normal.z);
         newVPoints[j]->normal.x /= length;
         newVPoints[j]->normal.y /= length;
         newVPoints[j]->normal.z /= length;
     }
 }
-
 
 #endif

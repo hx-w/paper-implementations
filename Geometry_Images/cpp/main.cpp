@@ -28,12 +28,11 @@
 
 using namespace std;
 
-#pragma warning (disable:4018) // signed/unsigned mismatch
-#pragma warning (disable:4996) // sprintf, sscanf, fopen_s depreciated
-#pragma warning (disable:4267) // size_t to int, possible loss of data
+#pragma warning(disable : 4018) // signed/unsigned mismatch
+#pragma warning(disable : 4996) // sprintf, sscanf, fopen_s depreciated
+#pragma warning(disable : 4267) // size_t to int, possible loss of data
 
-
-int main( int argc, char** argv )
+int main(int argc, char **argv)
 {
     srand(time(0));
 
@@ -49,8 +48,8 @@ int main( int argc, char** argv )
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
     glutKeyboardFunc(keyboard);
-    glutMouseFunc( mouse );
-    glutMotionFunc( mouseMove );
+    glutMouseFunc(mouse);
+    glutMotionFunc(mouseMove);
     doMenus();
 
     // Enable z-buffe
@@ -72,7 +71,8 @@ int main( int argc, char** argv )
         // Once the file is parsed find out the maximum extent to center
         // and scale mesh
         max_extent = max_x - min_x;
-        if (max_y - min_y > max_extent) max_extent = max_y - min_y;
+        if (max_y - min_y > max_extent)
+            max_extent = max_y - min_y;
 
         center.x = center.x / Vertices.size();
         center.y = center.y / Vertices.size();
