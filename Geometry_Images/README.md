@@ -12,7 +12,7 @@ pip install -r requirements.txt
 
 #### static
 
-- `Geometry_Images.pdf` origin paper file
+- `Geometry_Images.pdf` paper file
 - `*.m` mesh file
 
 #### Run
@@ -23,3 +23,9 @@ cd Geometry_Images/
 python3 run.py static/dragon1K.m
 
 ```
+
+#### Interact
+
+- press `enter` to cut triangles
+- press `space` to cut edges (after triangles are cleared)
+- press `q` to quit
