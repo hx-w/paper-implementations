@@ -27,5 +27,5 @@ python3 run.py static/dragon1K.m
 #### Interact
 
 - press `enter` to cut triangles
-- press `space` to cut edges (after triangles are cleared)
+- press `space` to cut edges (after triangles cleared)
 - press `q` to quit
