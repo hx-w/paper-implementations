@@ -43,9 +43,11 @@ def drop_edge():
         if len(g_vet_edges[idx]) == 1:
             single = g_vet_edges[idx][0]
             # update
-            for idxx in range(len(g_vet_edges)):
-                if single in g_vet_edges[idxx]:
-                    g_vet_edges[idxx].remove(single)
+            other = g_edges[single].v1
+            if other == idx:
+                other = g_edges[single].v2
+            g_vet_edges[other].remove(single)
+            g_vet_edges[idx] = []
             g_edges[single].deleted = True
             counter += 1
     print(f'当前迭代删除边{counter}处')
