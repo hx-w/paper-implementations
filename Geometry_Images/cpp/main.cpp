@@ -14,7 +14,6 @@
  * move a culling box around to cull triangles and also see the results of the 
  * quad tree in the geometry image.
  */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>

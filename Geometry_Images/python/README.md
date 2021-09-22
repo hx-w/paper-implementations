@@ -10,17 +10,12 @@
 pip install -r requirements.txt
 ```
 
-#### Static
-
-- `Geometry_Images.pdf` paper file
-- `*.m` mesh file
-
 #### Run
 
 ```bash
-cd Geometry_Images/
+cd Geometry_Images/python/
 
-python3 run.py static/dragon1K.m
+python3 run.py ../static/dragon1K.m
 
 ```
 
