@@ -6,7 +6,7 @@
 
 > `Python 3.9.6`
 
-```shell
+```bash
 pip install -r requirements.txt
 ```
 
@@ -14,3 +14,12 @@ pip install -r requirements.txt
 
 - `Geometry_Images.pdf` origin paper file
 - `*.m` mesh file
+
+#### Run
+
+```bash
+cd Geometry_Images/
+
+python3 run.py static/dragon1K.m
+
+```
