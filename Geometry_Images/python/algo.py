@@ -40,7 +40,7 @@ def build_ve_index():
 
 def drop_edge() -> bool:
     counter = 0
-    global last_2_edges, g_phas
+    global last_2_edges, g_phase, g_vet_edges, g_edges
     for idx in range(len(g_vet_edges)):
         if len(g_vet_edges[idx]) == 1:
             single = g_vet_edges[idx][0]
@@ -62,7 +62,48 @@ def drop_edge() -> bool:
         g_edges[last_2_edges[0]].deleted = False
         g_edges[last_2_edges[1]].deleted = False
     if counter == 0:
-        for idx in range(len(g_trias)):
-            g_trias[idx].deleted = False
+        # for idx in range(len(g_trias)):
+        #     g_trias[idx].deleted = False
         return True
     return False
+
+def is_neighbor(idx, jdx) -> tuple:
+    if g_edges[idx].v1 == g_edges[jdx].v1:
+        return True, g_edges[idx].v2, g_edges[jdx].v2
+    elif g_edges[idx].v1 == g_edges[jdx].v2:
+        return True, g_edges[idx].v2, g_edges[jdx].v1
+    elif g_edges[idx].v2 == g_edges[jdx].v2:
+        return True, g_edges[idx].v1, g_edges[jdx].v1
+    elif g_edges[idx].v2 == g_edges[jdx].v1:
+        return True, g_edges[idx].v1, g_edges[jdx].v2
+    return False, None, None
+
+def is_connect(v1, v2) -> int:
+    tedge = Edge(v1, v2)
+    for idx in range(len(g_edges)):
+        if tedge == g_edges[idx]:
+            return idx
+    return -1
+
+def straighten_loop():
+    global g_edges
+    affact = 1
+    while affact != 0:
+        affact = 0
+        for idx in range(len(g_edges) - 1):
+            if g_edges[idx].deleted: continue
+            for jdx in range(idx + 1, len(g_edges)):
+                if g_edges[jdx].deleted: continue
+                success, front, back = is_neighbor(idx, jdx)
+                if not success: continue
+                bridge = is_connect(front, back)
+                if bridge == -1: continue
+                g_edges[idx].deleted = True
+                g_edges[jdx].deleted = True
+                g_edges[bridge].deleted = False
+                affact += 1
+                break
+            if affact != 0: break
+        print(f"affact: {affact}")
+    remain = len(list(filter(lambda x: not x.deleted, g_edges)))
+    print(f'剩余{remain}')

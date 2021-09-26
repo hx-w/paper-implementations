@@ -74,7 +74,8 @@ def draw():
                 g_phase = 3
             draw_once()
         plt.pause(0.1)
-    
+    # straighten_loop()
+    # draw_once()
     plt.show()
 
 def main():

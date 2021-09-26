@@ -83,6 +83,14 @@ class Triangle(object):
             trias.append(g_vertexs[idx].xyz())
         return trias
     
+    def get_vertex(self) -> list:
+        trias_idx = set()
+        for edge in self.edges:
+            if g_edges[edge].deleted: continue
+            trias_idx.add(g_edges[edge].v1)
+            trias_idx.add(g_edges[edge].v2)
+        return trias_idx
+
     def drop(self, selfid: int):
         self.deleted = True
         # update index
